@@ -7,10 +7,29 @@ import (
 	"github.com/tekpriest/poprev/cmd/database"
 )
 
+//	@title			Poprev API
+//	@version		1.0
+//	@description	Poprev API
+
+//	@license.name	MIT
+
+//	@securityDefinitions.apiKey	ApiKey
+//	@in							header
+//	@name						x-auth-token
+
+// @Accept		json
+// @Produce	json
+// @BasePath	/
 func main() {
 	env := flag.String("env", "dev", "environment to run on")
 	flag.Parse()
 
-	config := config.LoadConfig(*env)
-	database.NewConnection(config)
+	// load config
+	c := config.LoadConfig(*env)
+
+	// connect database
+	database.NewConnection(c)
+
+	// start server
+	NewRouter(c).Serve()
 }
