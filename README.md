@@ -49,6 +49,12 @@ REDIS_PASS=password
 
 Please replace the variables with yours
 
+Connect & Create the database name
+
+```sh
+CREATE DATABASE `poprev_dev`
+```
+
 Migrate the database
 
 ```sh

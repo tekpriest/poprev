@@ -31,7 +31,7 @@ func (d *databaseConnection) GetDB() *gorm.DB {
 }
 
 func NewConnection(config *config.Config) DatabaseConnection {
-	db, err := gorm.Open(mysql.Open(utils.FormatDBURL(config.DBURL)), &gorm.Config{
+	db, err := gorm.Open(mysql.Open(config.DBURL), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	utils.PanicOnError(err, "there was an error connecting to the database")

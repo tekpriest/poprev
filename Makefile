@@ -1,4 +1,4 @@
-include .envrc
+include .env
 
 # ==================================================================================== # 
 # HELPERS
@@ -20,11 +20,6 @@ confirm:
 .PHONY: run/api
 run/api:
 	go run ./cmd/api
-
-## db/mysql: connect to the database using mysql
-.PHONY: db/mysql
-db/mysql:
-	mysql ${DATABASE_URL}
 
 ## db/migrations/new name=$1: create a new database migration
 .PHONY: db/migrations/new

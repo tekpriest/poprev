@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `artists`;
+DROP TABLE IF EXISTS `projects`;
+DROP TABLE IF EXISTS `tokens`;
+DROP TABLE IF EXISTS `rates`;
+DROP TABLE IF EXISTS `withdrawals`;
+DROP TABLE IF EXISTS `deposits`;
+DROP TABLE IF EXISTS `transactions`;
+DROP TABLE IF EXISTS `trades`;
+DROP TABLE IF EXISTS `sales`;
