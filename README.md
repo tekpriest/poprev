@@ -40,7 +40,7 @@ Sample
 ```sh
 PORT=80
 ENV=dev
-DATABASE_URL="mysql://root:password@tcp(localhost:3306)/dbname"
+DATABASE_URL="root:password@tcp(localhost:3306)/poprev_dev"
 REDIS_HOST="127.0.0.1:6379"
 REDIS_PORT=6379
 REDIS_USER=default
