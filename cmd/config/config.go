@@ -12,9 +12,10 @@ import (
 )
 
 type Config struct {
-	Env   string `env:"ENV"`
-	Port  int    `env:"PORT"         envDefault:"3000"`
-	DBURL string `env:"DATABASE_URL"`
+	Env       string `env:"ENV"`
+	Port      int    `env:"PORT"         envDefault:"3000"`
+	DBURL     string `env:"DATABASE_URL"`
+	JwtSecret string `env:"JWT_SECRET"`
 	RedisConfig
 }
 

@@ -1,7 +1,5 @@
 package model
 
-import "github.com/google/uuid"
-
 type SaleStatus string
 
 const (
@@ -17,6 +15,6 @@ type Sale struct {
 	MaxOrder int        `json:"max_order,omitempty"`
 	Rate     float32    `json:"rate,omitempty"`
 	Status   SaleStatus `json:"status,omitempty"`
-	SellerID *uuid.UUID `json:"seller_id,omitempty"`
+	SellerID string     `json:"seller_id"`
 	Trades   []Trade    `json:"trades,omitempty"`
 }

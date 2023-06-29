@@ -42,7 +42,6 @@ func NewConnection(config *config.Config) DatabaseConnection {
 		Password: config.RedisPass,
 		DB:       config.RedisDB,
 	})
-	defer rDB.Close()
 
 	return &databaseConnection{
 		DB:  db,
