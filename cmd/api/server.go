@@ -15,6 +15,8 @@ import (
 	"github.com/gofiber/swagger"
 
 	"github.com/tekpriest/poprev/cmd/api/auth"
+	"github.com/tekpriest/poprev/cmd/api/project"
+	"github.com/tekpriest/poprev/cmd/api/token"
 	"github.com/tekpriest/poprev/cmd/api/user"
 	"github.com/tekpriest/poprev/cmd/config"
 	"github.com/tekpriest/poprev/cmd/utils"
@@ -43,6 +45,8 @@ func (s *server) Serve() error {
 
 	auth.Route(s.c, r)
 	user.Route(s.c, r)
+	project.Route(s.c, r)
+	token.Route(s.c, r)
 
 	utils.PanicOnError(
 		s.Listen(fmt.Sprintf(":%d", s.c.Port)),

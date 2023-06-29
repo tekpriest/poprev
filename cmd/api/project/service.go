@@ -2,6 +2,7 @@ package project
 
 import (
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 
 	"github.com/tekpriest/poprev/cmd/database"
 	"github.com/tekpriest/poprev/internal/constants"
@@ -13,10 +14,19 @@ type ProjectService interface {
 	CreateProject(data CreateProjectData) (*model.Project, error)
 	ListProjects(query QueryProjectData) (FetchProjectsData, error)
 	FetchProject(id string) (*model.Project, error)
+	FetchAllProjectTransactions(projectID string) ([]model.Transaction, error)
 }
 
 type service struct {
 	db *gorm.DB
+}
+
+// FetchAllProjectTransactions implements ProjectService.
+func (s *service) FetchAllProjectTransactions(projectID string) ([]model.Transaction, error) {
+	// var transactions []model.Transaction
+	// var deposits []model.Deposit
+	// var withdrawal []model.Withdrawal
+	panic("")
 }
 
 // CreateProject implements ProjectService.
@@ -29,9 +39,11 @@ func (s *service) CreateProject(data CreateProjectData) (*model.Project, error) 
 		return nil, err
 	}
 
+	tokens := calculateTokens(data.Amount)
+
 	project := &model.Project{
 		Amount:   data.Amount,
-		Tokens:   s.calculateTokens(data.Amount),
+		Tokens:   tokens,
 		ArtistID: artist.ID,
 	}
 	if err := s.db.Create(project).Error; err != nil {
@@ -47,7 +59,7 @@ func (s *service) FetchProject(id string) (*model.Project, error) {
 
 	if err := s.db.
 		Table("projects").
-		Preload("Rate").
+		Preload(clause.Associations).
 		First(&project, "id = ?", id).
 		Error; err != nil {
 		return nil, err
@@ -72,7 +84,7 @@ func (s *service) ListProjects(q QueryProjectData) (FetchProjectsData, error) {
 		return FetchProjectsData{}, err
 	}
 
-	if err := s.db.Table("trades").Count(&count).Scopes(
+	if err := s.db.Table("projects").Count(&count).Scopes(
 		query.FilterProjectByStatus(q.Status),
 	).
 		Error; err != nil {
@@ -85,7 +97,7 @@ func (s *service) ListProjects(q QueryProjectData) (FetchProjectsData, error) {
 	return data, nil
 }
 
-func (s *service) calculateTokens(amount float64) int {
+func calculateTokens(amount float64) int {
 	// get the rate for creating project
 	tokens := int(amount / constants.RATE)
 
