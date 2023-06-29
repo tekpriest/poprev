@@ -30,3 +30,7 @@ type ResetPasswordData struct {
 	Password string `json:"password" validate:"required"`
 	Code     string `json:"code"     validate:"required"`
 }
+
+type VerifyAccountData struct {
+	Code string `json:"code" validate:"required"`
+}

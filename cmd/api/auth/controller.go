@@ -16,10 +16,25 @@ type AuthController interface {
 	Login(ctx *fiber.Ctx) error
 	RequestPassword(ctx *fiber.Ctx) error
 	ResetPassword(ctx *fiber.Ctx) error
+	VerifyAccount(ctx *fiber.Ctx) error
 }
 
 type controller struct {
 	s AuthService
+}
+
+// VerifyAccount implements AuthController.
+func (c *controller) VerifyAccount(ctx *fiber.Ctx) error {
+	var data VerifyAccountData
+
+	json.Unmarshal(ctx.Body(), &data)
+
+	authData, err := c.s.VerifyAccount(data.Code)
+	if err != nil {
+		return response.BadRequestResponse(ctx, err.Error(), err.Error())
+	}
+
+	return response.OkResponse(ctx, "account verified successfully", authData)
 }
 
 // Login implements AuthController.

@@ -18,7 +18,7 @@ import (
 	"github.com/tekpriest/poprev/internal/tokens"
 )
 
-var ctx = context.TODO()
+var ctx = context.Background()
 
 type AuthService interface {
 	Register(data user.RegisterUser) (AuthData, error)
@@ -140,7 +140,7 @@ func (s *service) Register(data user.RegisterUser) (AuthData, error) {
 	if err := s.rdb.
 		Set(
 			ctx,
-			fmt.Sprintf("verify_%s", otp.Hash),
+			fmt.Sprintf("verify_%s", otp.Secret),
 			user.ID,
 			time.Duration(time.Hour*24)).
 		Err(); err != nil {
@@ -157,12 +157,13 @@ func (s *service) Register(data user.RegisterUser) (AuthData, error) {
 // VerifyAccount implements AuthService.
 func (s *service) VerifyAccount(code string) (AuthData, error) {
 	var auth AuthData
-	userID := s.rdb.Get(ctx, fmt.Sprintf("verify_%s", code))
-	if userID == nil {
+
+	userID, err := s.rdb.Get(ctx, fmt.Sprintf("verify_%s", code)).Result()
+	if err != nil {
 		return AuthData{}, errors.New("invalid verification code please try again")
 	}
 
-	user, err := s.us.VerifyAccount(userID.String())
+	user, err := s.us.VerifyAccount(userID)
 	if err != nil {
 		return AuthData{}, err
 	}

@@ -18,4 +18,5 @@ func Route(c *config.Config, r fiber.Router) {
 	r.Post("/login", ctr.Login)
 	r.Post("/password/request", ctr.RequestPassword)
 	r.Post("/password/reset", ctr.ResetPassword)
+	r.Post("/verify", ctr.VerifyAccount)
 }
