@@ -14,9 +14,9 @@ const (
 )
 
 const (
-	Pending    TransactionStatus = "pending"
-	Failed     TransactionStatus = "failed"
-	Successful TransactionStatus = "successful"
+	TransactionPending    TransactionStatus = "pending"
+	TransactionFailed     TransactionStatus = "failed"
+	TransactionSuccessful TransactionStatus = "successful"
 )
 
 type Transaction struct {
