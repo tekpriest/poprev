@@ -17,6 +17,17 @@ type QueryProjectData struct {
 }
 
 type FetchProjectsData struct {
-	Projects []model.Project  `json:"projects,omitempty"`
+	Projects []model.Project  `json:"projects"`
 	Meta     query.Pagination `json:"meta,omitempty"`
+}
+
+type FetchAllProjectTransactionsData struct {
+	Transactions []model.Transaction `json:"transactions"`
+	Meta         query.Pagination    `json:"meta,omitempty"`
+}
+
+type QueryTransactionsData struct {
+	Limit  int64  `query:"limit"`
+	Page   int64  `query:"page"`
+	Status string `query:"status"`
 }

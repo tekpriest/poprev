@@ -26,11 +26,12 @@ const (
 
 type Transaction struct {
 	Base
-	Fee     float32              `json:"fee,omitempty"`
-	Amount  float64              `json:"amount,omitempty"`
-	EventID string               `json:"event_id,omitempty"`
-	Type    TransactionEventType `json:"event_type,omitempty" gorm:"column:event_type"`
-	Status  TransactionStatus    `json:"status,omitempty"`
+	Fee       float32              `json:"fee,omitempty"`
+	Amount    float64              `json:"amount,omitempty"`
+	EventID   string               `json:"event_id,omitempty"`
+	Type      TransactionEventType `json:"event_type,omitempty" gorm:"column:event_type"`
+	Status    TransactionStatus    `json:"status,omitempty"`
+	ProjectID string               `json:"project_id"`
 }
 
 func (t *Transaction) BeforeCreate(d *gorm.DB) (err error) {

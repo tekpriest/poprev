@@ -15,4 +15,5 @@ func Route(c *config.Config, r fiber.Router) {
 	r.Post("/create", ctr.CreateProject)
 	r.Get("/", ctr.FetchAllProjects)
 	r.Get("/:id", ctr.FetchAProject)
+	r.Get("/:id/transactions", ctr.FetchAllTransactions)
 }

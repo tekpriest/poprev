@@ -22,14 +22,15 @@ const (
 
 type Project struct {
 	Base
-	Amount      float64       `json:"amount,omitempty"`
-	Tokens      int           `json:"tokens,omitempty"`
-	Claimed     []Token       `json:"claimed,omitempty"     gorm:"foreignKey:ProjectID"`
-	Status      ProjectStatus `json:"status,omitempty"`
-	ArtistID    string        `json:"artist_id,omitempty"`
-	Rate        Rate          `json:"rate,omitempty"`
-	Withdrawals []Withdrawal  `json:"withdrawals,omitempty" gorm:"foreignKey:ProjectID"`
-	Deposit     []Deposit     `json:"deposits,omitempty"    gorm:"foreignKey:ProjectID"`
+	Amount       float64       `json:"amount,omitempty"`
+	Tokens       int           `json:"tokens,omitempty"`
+	Claimed      []Token       `json:"claimed,omitempty"      gorm:"foreignKey:ProjectID"`
+	Status       ProjectStatus `json:"status,omitempty"`
+	ArtistID     string        `json:"artist_id,omitempty"`
+	Rate         Rate          `json:"rate,omitempty"`
+	Withdrawals  []Withdrawal  `json:"withdrawals,omitempty"  gorm:"foreignKey:ProjectID"`
+	Deposit      []Deposit     `json:"deposits,omitempty"     gorm:"foreignKey:ProjectID"`
+	Transactions []Transaction `json:"transactions,omitempty"`
 }
 
 func (p *Project) BeforeCreate(d *gorm.DB) (err error) {

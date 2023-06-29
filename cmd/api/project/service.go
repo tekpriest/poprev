@@ -14,7 +14,10 @@ type ProjectService interface {
 	CreateProject(data CreateProjectData) (*model.Project, error)
 	ListProjects(query QueryProjectData) (FetchProjectsData, error)
 	FetchProject(id string) (*model.Project, error)
-	FetchAllProjectTransactions(projectID string) ([]model.Transaction, error)
+	FetchAllProjectTransactions(
+		projectID string,
+		query QueryTransactionsData,
+	) (FetchAllProjectTransactionsData, error)
 }
 
 type service struct {
@@ -22,11 +25,31 @@ type service struct {
 }
 
 // FetchAllProjectTransactions implements ProjectService.
-func (s *service) FetchAllProjectTransactions(projectID string) ([]model.Transaction, error) {
-	// var transactions []model.Transaction
-	// var deposits []model.Deposit
-	// var withdrawal []model.Withdrawal
-	panic("")
+func (s *service) FetchAllProjectTransactions(
+	projectID string,
+	q QueryTransactionsData,
+) (FetchAllProjectTransactionsData, error) {
+	var data FetchAllProjectTransactionsData
+	var transactions []model.Transaction
+	var count int64
+
+	// deposits
+	if err := s.db.
+		Table("transactions").
+		Where("project_id = ?", projectID).
+		Find(&transactions).Error; err != nil {
+		return FetchAllProjectTransactionsData{}, err
+	}
+
+	if err := s.db.Table("transactions").
+		Where("project_id = ?", projectID).Count(&count).Error; err != nil {
+		return FetchAllProjectTransactionsData{}, err
+	}
+
+	data.Transactions = transactions
+	data.Meta = query.Paginate(count, len(transactions), int(q.Page), int(q.Limit))
+
+	return data, nil
 }
 
 // CreateProject implements ProjectService.

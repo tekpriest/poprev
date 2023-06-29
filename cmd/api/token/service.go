@@ -124,10 +124,11 @@ func (s *service) BuyToken(userID string, data BuyTokenData) (map[string]interfa
 			return err
 		}
 		transaction := &model.Transaction{
-			Fee:     constants.TRANSACTION_FEE,
-			Amount:  finalAmount,
-			EventID: deposit.ID,
-			Type:    model.TransactionEventType(model.DepositEvent),
+			Fee:       constants.TRANSACTION_FEE,
+			Amount:    finalAmount,
+			EventID:   deposit.ID,
+			ProjectID: data.ProjectID,
+			Type:      model.TransactionEventType(model.DepositEvent),
 		}
 		if err := tx.Create(transaction).Error; err != nil {
 			return err

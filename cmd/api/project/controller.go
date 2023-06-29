@@ -13,10 +13,32 @@ type ProjectController interface {
 	CreateProject(ctx *fiber.Ctx) error
 	FetchAllProjects(ctx *fiber.Ctx) error
 	FetchAProject(ctx *fiber.Ctx) error
+	FetchAllTransactions(ctx *fiber.Ctx) error
 }
 
 type controller struct {
 	s ProjectService
+}
+
+// FetchAllTransactions implements ProjectController.
+func (c *controller) FetchAllTransactions(ctx *fiber.Ctx) error {
+	var query QueryTransactionsData
+
+	projectID := ctx.Params("id")
+	if projectID == "" {
+		return response.BadRequestResponse(ctx, "empty id in params path", nil)
+	}
+
+	if err := ctx.QueryParser(&query); err != nil {
+		return response.BadRequestResponse(ctx, err.Error(), err.Error())
+	}
+
+	result, err := c.s.FetchAllProjectTransactions(projectID, query)
+	if err != nil {
+		return response.BadRequestResponse(ctx, err.Error(), err.Error())
+	}
+
+	return response.OkResponse(ctx, "fetched all transactions successfully", result)
 }
 
 // CreateProject implements ProjectController.
